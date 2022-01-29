@@ -13,6 +13,7 @@ class App extends Component {
       monsters: [],
       searchField: ''
     };
+
   }
 
   componentDidMount() {
@@ -21,8 +22,14 @@ class App extends Component {
       .then(users => this.setState({ monsters: users }));
   }
 
-  render() {
+  //arrow function can automatically bind custom defined function to the class
+  //lexical scoping: bind the function to the context in which it was defined -> class app
+  handleChange = (e) => {
+    this.setState({ searchField: e.target.value });
+  }
 
+  render() {
+    //destructuring
     const { monsters, searchField } = this.state;
     const filteredMonsters = monsters.filter(monster =>
       monster.name.toLowerCase().includes(searchField.toLowerCase())
@@ -32,9 +39,7 @@ class App extends Component {
 
         <SearchBox
           placeholder='Search monsters'
-          handleChange={e => {
-            this.setState({ searchField: e.target.value });
-          }}
+          handleChange={this.handleChange}
         ></SearchBox>
 
         <CardList monsters={filteredMonsters}>
